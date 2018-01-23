@@ -43,11 +43,13 @@ function listGuesses() {
 }
 //resets the guesses left
 function resetIndex() {
-	remainderIndex=10;
+	remainderIndex=9;
+	document.querySelector("#guesses-left").innerHTML = remainderIndex;
 }
 //resets the string of guessed letters
 function resetString() {
 	stringGuesses="";
+	document.querySelector("#guessedAlready").innerHTML = stringGuesses;
 }
 
 //Initialize gameplay
@@ -58,7 +60,7 @@ updateWins();
 
 resetIndex();
 
-updateRemainder ();
+// updateRemainder ();
 
 generateLetter ();
 
@@ -68,7 +70,7 @@ document.onkeyup = function(event) {
 	if (remainderIndex >0) {
 		userInput = event.key;
 		userInput = userInput.toLowerCase();
-		if (lettersGuessed.indexOf(userInput)== -1)  {
+		if ((lettersGuessed.indexOf(userInput)== -1) && (alphabetArray.includes(userInput)))  {
 			lettersGuessed.push(userInput);
 			listGuesses();
 			updateRemainder();
@@ -78,15 +80,17 @@ document.onkeyup = function(event) {
 					generateLetter();
 					resetGuesses();
 					resetString();
+					return;
 				}
 		}
 
 	}	else {
+			resetString();
 			updateLosses();
 			resetIndex();
 			generateLetter();
 			resetGuesses();
-			resetString();
-
+			
+			return;
 		}
 }
